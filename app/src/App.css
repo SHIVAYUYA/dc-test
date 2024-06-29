@@ -46,3 +46,18 @@ main {
 .form-control:has(button) {
   text-align: right;
 }
+
+.timeline {
+  max-width: 1080px;
+  width: 100%;
+  margin: auto;
+}
+
+.timeline__inner{
+  padding-inline: 1rem;
+}
+
+.timeline__inner h3 {
+  margin: 0;
+}
+
