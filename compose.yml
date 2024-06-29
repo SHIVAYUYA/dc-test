@@ -1,0 +1,11 @@
+services:
+  app:
+    container_name: app
+    image: node:lts-alpine
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command: sh -c "npm run dev"
+    tty: true
+    ports:
+      - ${REACT_PORT}:5173
