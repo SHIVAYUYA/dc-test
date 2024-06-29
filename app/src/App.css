@@ -9,3 +9,40 @@ body{
   height: 100dvh;
 }
 
+main {
+  background-color: aliceblue;
+  flex-grow: 1;
+  padding-block: 1rem;
+}
+
+.main__inner {
+  max-width: 1080px;
+  width: 100%;
+  margin: auto;
+}
+
+.userform {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 1rem;
+  gap: 1rem;
+}
+
+.form-control label {
+  display: block;
+  width: 100%;
+}
+
+.form-control input, 
+.form-control textarea {
+  width: 100%;
+}
+
+.form-control textarea {
+  resize: vertical;
+  min-height: 50px; 
+}
+
+.form-control:has(button) {
+  text-align: right;
+}
