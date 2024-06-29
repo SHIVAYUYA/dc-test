@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/header';
 import { TimelineItem } from './components/timeline-item';
 
@@ -11,22 +11,67 @@ function App() {
   const [posts,setposts] = useState([]);
   console.log(posts);
 
+  async function handlesubmit(e){
+    e.preventDefault()
+    if (username === ''|| useremail === '' || usercontent === ''){
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/post`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            useremail,
+            usercontent,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setposts([...posts, { username, useremail, usercontent }]);
+        setusername("");
+        setuseremail("");
+        setusercontent("");
+        console.log("成功");
+      } else {
+        console.log("失敗");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/post`
+      );
+      if (response.ok) {
+        const { posts } = await response.json();
+        setposts(posts);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return (
     <div className='App'>
       <Header />
       <main>
         <div className="main__inner">
-          <form className="userform" onSubmit={function(e){
-            e.preventDefault()
-            if (username === ''|| useremail === '' || usercontent === ''){
-              return
-            }
-            console.log(username,useremail,usercontent);
-            setposts([...posts,{username,useremail,usercontent}]);
-            setusername('');
-            setuseremail('');
-            setusercontent('');
-          }}>
+          <form className="userform" onSubmit={handlesubmit}>
             <div className="form-control">
               <label htmlFor="username">ユーザ名</label>
               <input type="text" id="username" placeholder='ユーザ名入力' value={username} onChange={function(e){setusername(e.currentTarget.value)}} />
